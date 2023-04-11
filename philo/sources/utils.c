@@ -6,11 +6,11 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/11 13:31:55 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/11 13:49:59 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Philosophers.h"
+#include "../includes/philosophers.h"
 
 int	ft_strlen(char *str)
 {
