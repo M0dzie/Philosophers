@@ -6,7 +6,7 @@
 #    By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#              #
-#    Updated: 2023/04/11 15:11:37 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/04/12 09:54:07 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ HEADER		=	includes/philosophers.h
 MAKEFILE	=	Makefile
 
 CFLAGS 		= 	-Wall -Wextra -Werror
+PFLAGS		=	-pthread
 
 RM 			= 	rm -rf
 
@@ -70,10 +71,10 @@ $(OBJS_DIRS):
 
 $(NAME):	$(OBJS)
 ifeq ($(UNAME),Linux)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(CFLAGS) $(PFLAGS) -o $(NAME) $(OBJS)
 	@echo "$(BGREEN)Linux Compilation Done$(NOCOLOR)"
 else ifeq ($(UNAME),Darwin)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(CFLAGS) $(PFLAGS) -o $(NAME) $(OBJS)
 	@echo "$(BGREEN)Mac OS Compilation Done$(NOCOLOR)"
 endif
 
