@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/17 11:09:38 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/17 12:59:28 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int	main(int argc, char **argv)
 
 	i = -1;
 	if (argc != 5 && argc != 6)
-		display_error("Wrong number of arguments, you should have :\n\
+		return (display_error("Wrong number of arguments, you should have :\n\
 <number of philosophers> <time to die> <time to eat> <time to sleep> \n\
-and eventually <number of times each philosophers must eat>");
-	check_arg(argv);
+and eventually <number of times each philosophers must eat>"), 1);
+	if (wrong_arg(argv))
+		return (1);
 	n_philo = ft_atoi(argv[1]);
 	data = malloc(sizeof(pthread_t) * (n_philo + 1));
 	if (!data)
