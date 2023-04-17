@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/17 12:56:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/17 13:40:22 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,27 @@ static int	wrong_number(char **argv)
 {
 	int	i;
 
-	i = 1;
-	if (ft_atoi(argv[i]) > INT_MAX || ft_atoi(argv[i]) < 1 || \
-	ft_strlen(argv[i]) > 11)
-		return (display_error("<number_of_philosophers> must be \
-greater than 0"), 1);
+	i = 0;
 	while (argv[++i])
 	{
-		if (ft_atoi(argv[i]) > INT_MAX || ft_atoi(argv[i]) < 0 || \
+		if (ft_atoi(argv[i]) > INT_MAX || ft_atoi(argv[i]) < 1 || \
 		ft_strlen(argv[i]) > 11)
 		{
+			if (i == 1)
+				display_error("<number_of_philosophers> must be greater \
+than 0");
 			if (i == 2)
-				display_error("<time_to_die> is not a positive int");
+				display_error("<time_to_die> is not a positive int greater \
+than 0");
 			if (i == 3)
-				display_error("<time_to_eat> is not a positive int");
+				display_error("<time_to_eat> is not a positive int greater \
+than 0");
 			if (i == 4)
-				display_error("<time_to_sleep> is not a positive int");
+				display_error("<time_to_sleep> is not a positive int greater \
+than 0");
 			if (i == 5)
 				display_error("<number_of_times_each_philosopher_must_eat> \
-is not a positive int");
+is not a positive int greather than 0");
 			return (1);
 		}
 	}
@@ -55,8 +57,6 @@ int	wrong_arg(char **argv)
 	int	j;
 
 	i = 0;
-	if (wrong_number(argv))
-		return (1);
 	while (argv[++i])
 	{
 		j = -1;
@@ -69,5 +69,7 @@ int	wrong_arg(char **argv)
 			}
 		}
 	}
+	if (wrong_number(argv))
+		return (1);
 	return (0);
 }
