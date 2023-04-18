@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/17 14:25:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/18 14:52:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,21 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-typedef struct s_pdata
+typedef struct s_data
 {
 	long			nbr_philo;
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			nbr_must_eat;
+	long			time;
 	pthread_mutex_t	*fork;
-}					t_pdata;
+}					t_data;
 
 typedef struct s_philo
 {
+	int		id;
+	t_data	*data;
 }			t_philo;
 
 int		wrong_arg(char **argv);
