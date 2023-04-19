@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/19 13:32:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/19 13:41:56 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	init_data(t_data *data, char **argv)
 
 static void	*forks_and_eat(t_philo *philo)
 {
+	printf("Philo %d is thinking\n", philo->index + 1);
 	pthread_mutex_lock(&philo->data->fork[philo->index]);
 	printf("Philo %d has taken a fork\n", philo->index + 1);
 	pthread_mutex_lock(&philo->data->fork[philo->index - 1]);
@@ -45,7 +46,6 @@ static void	*forks_and_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->fork[philo->index - 1]);
 	printf("Philo %d is sleeping\n", philo->index + 1);
 	usleep(philo->data->time_to_sleep * 1000);
-	printf("Philo %d is thinking\n", philo->index + 1);
 	return (NULL);
 }
 
@@ -55,12 +55,13 @@ static void	*start_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->index % 2 != 0)
-	{
 		usleep(50);
-		printf("Philo %d is thinking\n", philo->index + 1);
-	}
-	while (philo->data->nbr_must_eat == -1)
-		forks_and_eat(philo);
+	if (philo->data->nbr_must_eat == -1)
+		while (philo->data->nbr_must_eat == -1)
+			forks_and_eat(philo);
+	// else
+	// 	while (philo->data->nbr_must_eat-- > 0)
+	// 		forks_and_eat(philo);
 	return (NULL);
 }
 
