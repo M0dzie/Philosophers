@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/19 13:41:56 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/19 14:04:52 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,31 @@ static void	init_data(t_data *data, char **argv)
 		data->nbr_must_eat = -1;
 }
 
+static void	*display_msg(t_philo *philo, int status)
+{
+	char	*msg[5];
+
+	msg[0] = "is thinking\n";
+	msg[1] = "has taken a fork\n";
+	msg[2] = "is eating\n";
+	msg[3] = "is sleeping\n";
+	msg[4] = "died\n";
+	printf("Philo %d %s", philo->index + 1, msg[status]);
+	return (NULL);
+}
+
 static void	*forks_and_eat(t_philo *philo)
 {
-	printf("Philo %d is thinking\n", philo->index + 1);
+	display_msg(philo, 0);
 	pthread_mutex_lock(&philo->data->fork[philo->index]);
-	printf("Philo %d has taken a fork\n", philo->index + 1);
+	display_msg(philo, 1);
 	pthread_mutex_lock(&philo->data->fork[philo->index - 1]);
-	printf("Philo %d has taken a fork\n", philo->index + 1);
-	printf("Philo %d is eating\n", philo->index + 1);
+	display_msg(philo, 1);
+	display_msg(philo, 2);
 	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->data->fork[philo->index]);
 	pthread_mutex_unlock(&philo->data->fork[philo->index - 1]);
-	printf("Philo %d is sleeping\n", philo->index + 1);
+	display_msg(philo, 3);
 	usleep(philo->data->time_to_sleep * 1000);
 	return (NULL);
 }
