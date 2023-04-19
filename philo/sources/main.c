@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/18 15:36:38 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/19 11:35:04 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,23 @@ static void	*start_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id == 0)
-		return (NULL);
-	if (philo->id % 2 == 0)
-	{
+	printf("id = %d\n", philo->id);
+	// if (philo->id == 0)
+	// 	printf("Philo 1 is thinking\n");
+	// if (philo->id % 2 == 0)
+	// {
 		// printf("je suis le philo %d\n", philo->id + 1);
-		pthread_mutex_lock(&philo->data->fork[philo->id - 1]);
-		printf("Philo %d has taken a fork\n", philo->id + 1);
 		pthread_mutex_lock(&philo->data->fork[philo->id]);
 		printf("Philo %d has taken a fork\n", philo->id + 1);
+		// pthread_mutex_lock(&philo->data->fork[philo->id - 1]);
+		// printf("Philo %d has taken a fork\n", philo->id + 1);
 		printf("Philo %d is eating\n", philo->id + 1);
-		usleep(philo->data->time_to_eat);
-		pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
+		// usleep(philo->data->time_to_eat);
 		pthread_mutex_unlock(&philo->data->fork[philo->id]);
-	}
-	else
-		printf("je suis le philo %d\n", philo->id + 1);
+		// pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
+	// }
+	// else
+	// 	printf("je suis le philo %d\n", philo->id + 1);
 	return (NULL);
 }
 
@@ -59,20 +60,24 @@ static void	*create_thread(t_data *data)
 {
 	int				i;
 	t_philo			philo[data->nbr_philo];
-	pthread_t		config[data->nbr_philo];
+	pthread_t		ph_thread[data->nbr_philo];
 	pthread_mutex_t	fork[data->nbr_philo];
 
 	data->fork = fork;
-	philo->data = data;
+	i = -1;
+	while (++i < data->nbr_philo)	
+		pthread_mutex_init(&data->fork[i], NULL);
 	i = -1;
 	while (++i < data->nbr_philo)
 	{
 		philo[i].id = i;
-		pthread_mutex_init(&philo->data->fork[i], NULL);
-		pthread_create(&config[i], NULL, start_routine, &philo[i]);
-		pthread_join(config[i], NULL);
-		usleep(30);
+		philo[i].data = data;
+		pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]);
+		usleep(50);
 	}
+	i = -1;
+	while (++i < data->nbr_philo)
+		pthread_join(ph_thread[i], NULL);
 	return (NULL);
 }
 
