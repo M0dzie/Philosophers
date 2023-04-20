@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 13:51:25 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:00:29 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		ft_strlen(char *str);
 
 long	ft_atoi(const char *str);
 
+void	*create_thread(t_data *data);
 void	display_error(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#              #
-#    Updated: 2023/04/18 14:54:29 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/04/20 14:01:00 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ OBJS_DIRS	=	$(SRCS_PATH).objs/
 #                SOURCES                #
 # ##################################### #
 
-SRC_FILES	=	error.c main.c utils.c
+SRC_FILES	=	error.c main.c utils.c routine.c
 
 SRCS	=	$(addprefix $(SRCS_PATH), $(SRC_FILES))
 
