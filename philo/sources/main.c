@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 09:58:19 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/20 11:00:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ static void	*forks_and_eat(t_philo *philo)
 
 static void	*start_routine(void *arg)
 {
+	int		index;
 	t_philo	*philo;
 
+	index = 0;
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
 		usleep(50);
@@ -73,8 +75,11 @@ static void	*start_routine(void *arg)
 		while (philo->data->nbr_must_eat == -1)
 			forks_and_eat(philo);
 	else
-		while (philo->data->nbr_must_eat-- > 0)
+		while (index < philo->data->nbr_must_eat)
+		{
 			forks_and_eat(philo);
+			index++;
+		}
 	return (NULL);
 }
 
