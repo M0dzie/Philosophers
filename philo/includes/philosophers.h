@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/19 13:20:44 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/20 09:41:28 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_data
 
 typedef struct s_philo
 {
-	int		index;
+	int		id;
 	t_data	*data;
 }			t_philo;
 
