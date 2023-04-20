@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 14:00:29 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/20 15:53:45 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ typedef struct s_data
 
 typedef struct s_philo
 {
-	int		id;
-	t_data	*data;
+	int				id;
+	long			last_eat;
+	t_data			*data;
+	struct timeval	new_eat;
 }			t_philo;
 
 int		wrong_arg(char **argv);
