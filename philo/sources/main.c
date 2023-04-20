@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 11:27:56 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/20 11:41:55 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 static void	init_data(t_data *data, char **argv)
 {
-	gettimeofday(&data->time, NULL);
-	data->time_sec = data->time.tv_sec;
-	data->time_usec = data->time.tv_usec;
+	gettimeofday(&data->initial, NULL);
 	data->nbr_philo = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
@@ -30,13 +28,17 @@ static void	init_data(t_data *data, char **argv)
 static void	*display_msg(t_philo *philo, int status)
 {
 	char	*msg[5];
+	long	time_ms;
 
 	msg[0] = "is thinking\n";
 	msg[1] = "has taken a fork\n";
 	msg[2] = "is eating\n";
 	msg[3] = "is sleeping\n";
 	msg[4] = "died\n";
-	printf("Philo %d %s", philo->id, msg[status]);
+	gettimeofday(&philo->data->now, NULL);
+	time_ms = (philo->data->now.tv_sec - philo->data->initial.tv_sec) * 1000 \
+	+ (philo->data->now.tv_usec - philo->data->initial.tv_usec) / 1000;
+	printf("%ldms Philo %d %s", time_ms, philo->id, msg[status]);
 	return (NULL);
 }
 
