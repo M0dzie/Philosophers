@@ -6,23 +6,17 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 11:00:25 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/20 11:27:56 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static void	init_time(t_data *data)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	data->time = time.tv_sec;
-	printf("time = %ld\n", time.tv_sec);
-}
-
 static void	init_data(t_data *data, char **argv)
 {
+	gettimeofday(&data->time, NULL);
+	data->time_sec = data->time.tv_sec;
+	data->time_usec = data->time.tv_usec;
 	data->nbr_philo = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
@@ -117,7 +111,6 @@ int	main(int argc, char **argv)
 and eventually <number of times each philosophers must eat>"), 1);
 	if (wrong_arg(argv))
 		return (1);
-	init_time(&data);
 	init_data(&data, argv);
 	create_thread(&data);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 09:41:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/20 11:26:02 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			nbr_must_eat;
-	long			time;
+	long			time_sec;
+	long			time_usec;
+	struct timeval	time;
 	pthread_mutex_t	*fork;
 }					t_data;
 
