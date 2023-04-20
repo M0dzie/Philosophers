@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 14:24:01 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/20 15:08:34 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,5 @@ void	*create_thread(t_data *data)
 	i = -1;
 	while (++i < data->nbr_philo)
 		pthread_join(ph_thread[i], NULL);
-	return (NULL);
+	return (free(data->fork), free(philo), free(ph_thread), NULL);
 }
