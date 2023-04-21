@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 15:53:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/21 12:22:37 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_philo
 {
 	int				id;
 	long			last_eat;
+	long			time_check;
 	t_data			*data;
 	struct timeval	new_eat;
 }			t_philo;

@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/20 15:54:31 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/21 12:23:43 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,16 @@ static void	display_status(t_philo *philo, int status)
 	printf("%ld %d %s", time_ms, philo->id, msg[status]);
 }
 
-static void	check_death(t_philo *philo)
+static int	is_dead(t_philo *philo)
 {
-	long	new_eat;
-
-	gettimeofday(&philo->new_eat, NULL);
-	new_eat = philo->new_eat.tv_sec * 1000 + philo->new_eat.tv_usec / 1000;
-	printf("new_eat = %ld\n", new_eat);
-	if (new_eat - philo->last_eat > philo->data->time_to_die)
-		return (philo->data->all_alive = 0, display_status(philo, 4));
+	printf("time_check = %ld\n", philo->time_check);
+	printf("calcul = %ld\n", philo->last_eat - philo->time_check);
+	if (philo->last_eat - philo->time_check > philo->data->time_to_die)
+		return (philo->data->all_alive = 0, display_status(philo, 4), 1);
 	else
-		philo->last_eat = new_eat;
-	printf("last_eat = %ld\n", philo->last_eat);
+		philo->time_check = philo->last_eat;
+	printf("last_eat du philo %d = %ld\n", philo->id, philo->last_eat);
+	return (0);
 }
 
 static void	forks_and_eat(t_philo *philo)
@@ -51,7 +49,12 @@ static void	forks_and_eat(t_philo *philo)
 	display_status(philo, 1);
 	display_status(philo, 2);
 	usleep(philo->data->time_to_eat * 1000);
-	check_death(philo);
+	gettimeofday(&philo->new_eat, NULL);
+	philo->last_eat = philo->new_eat.tv_sec * 1000 + \
+	philo->new_eat.tv_usec / 1000;
+	printf("new_eat du philo %d = %ld\n", philo->id, philo->last_eat);
+	if (is_dead(philo))
+		return ;
 	pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
 	pthread_mutex_unlock(&philo->data->fork[philo->id % \
 	philo->data->nbr_philo]);
@@ -73,7 +76,7 @@ static void	*start_routine(void *arg)
 			forks_and_eat(philo);
 	else
 	{
-		while (index < philo->data->nbr_must_eat)
+		while (index < philo->data->nbr_must_eat && philo->data->all_alive)
 		{
 			forks_and_eat(philo);
 			index++;
@@ -101,9 +104,9 @@ void	*create_thread(t_data *data)
 	{
 		philo[i].id = i + 1;
 		philo[i].data = data;
-		philo[i].last_eat = philo->data->initial.tv_sec * 1000 + \
+		philo[i].time_check = philo->data->initial.tv_sec * 1000 + \
 		philo->data->initial.tv_usec / 1000;
-		printf("last_eat = %ld\n", philo[i].last_eat);
+		printf("time_check = %ld\n", philo->time_check);
 		pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]);
 	}
 	i = -1;
