@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/24 10:23:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/24 11:57:46 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,16 @@ static int	is_dead(t_philo *philo, t_data *data)
 			philo[i].last_eat = data->initial.tv_sec * 1000 + \
 			data->initial.tv_usec / 1000;
 		if (philo[i].cur_eat == 0)
-			break ;
+			philo[i].cur_eat = data->initial.tv_sec * 1000 + \
+			data->initial.tv_usec / 1000;
 		printf("last eat = %ld\n", philo[i].last_eat);
 		printf("cur eat = %ld\n", philo[i].cur_eat);
 		printf("ttd = %ld\n", data->time_to_die);
-		printf("calcul = %ld\n", philo[i].last_eat - philo[i].cur_eat);
-		if (philo[i].last_eat - philo[i].cur_eat > data->time_to_die)
+		printf("calcul = %ld\n", philo[i].cur_eat - philo[i].last_eat);
+		if (philo[i].cur_eat - philo[i].last_eat > data->time_to_die)
 			return (display_status(&philo[i], 4), 1);
+		philo[i].last_eat = philo[i].cur_eat;
+		printf("last eat = %ld\n", philo[i].last_eat);
 	}
 	return (0);
 }
@@ -108,13 +111,9 @@ void	*create_thread(t_data *data)
 	i = -1;
 	while (++i < data->nbr_philo)
 	{
-		// philo[i].id = i + 1;
-		// philo[i].data = data;
-		// philo[i].last_eat = 0;
-		// philo[i].cur_eat = 0;
+		pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]);
 		if (is_dead(philo, data))
 			break ;
-		pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]);
 	}
 	i = -1;
 	while (++i < data->nbr_philo)
