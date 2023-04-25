@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/24 10:16:30 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/25 09:40:27 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 typedef struct s_data
 {
-	int				all_alive;
 	long			nbr_philo;
 	long			time_to_die;
 	long			time_to_eat;
