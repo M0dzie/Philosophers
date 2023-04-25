@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/24 10:16:39 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/25 15:19:28 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ long	ft_atoi(const char *str)
 void	display_status(t_philo *philo, int status)
 {
 	char	*msg[5];
-	long	time_ms;
 
 	msg[0] = "is thinking\n";
 	msg[1] = "has taken a fork\n";
@@ -68,9 +67,11 @@ void	display_status(t_philo *philo, int status)
 	msg[3] = "is sleeping\n";
 	msg[4] = "died\n";
 	gettimeofday(&philo->data->now, NULL);
-	time_ms = (philo->data->now.tv_sec - philo->data->initial.tv_sec) * 1000 \
-	+ (philo->data->now.tv_usec - philo->data->initial.tv_usec) / 1000;
-	printf("%ld %d %s", time_ms, philo->id, msg[status]);
+	pthread_mutex_lock(&philo->data->write);
+	printf("%ld %d %s", (philo->data->now.tv_sec * 1000 + \
+	philo->data->now.tv_usec / 1000) - philo->data->time_init, \
+	philo->id, msg[status]);
+	pthread_mutex_unlock(&philo->data->write);
 }
 
 // void	ft_usleep(int time)

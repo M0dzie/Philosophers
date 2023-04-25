@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/25 11:09:47 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/25 15:46:55 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,18 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			nbr_must_eat;
-	struct timeval	initial;
+	long			time_init;
 	struct timeval	now;
+	pthread_mutex_t	write;
 	pthread_mutex_t	*fork;
 }					t_data;
 
 typedef struct s_philo
 {
 	int				id;
-	long			last_eat;
-	long			cur_eat;
 	t_data			*data;
-	struct timeval	new_eat;
-}			t_philo;
+	struct timeval	last_eat;
+}					t_philo;
 
 int		wrong_arg(char **argv);
 int		ft_isdigit(int c);

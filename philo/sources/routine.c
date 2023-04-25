@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/25 11:42:34 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/25 16:05:29 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ static void	init_philo(t_philo *philo, t_data *data)
 	{
 		philo[i].id = i + 1;
 		philo[i].data = data;
-		philo[i].last_eat = 0;
-		philo[i].cur_eat = 0;
+		gettimeofday(&philo[i].last_eat, NULL);
 	}
 }
 
-static int	check_death(t_philo *philo)
+static void	check_death(t_philo *philo)
 {
-	int	i;
+	int				i;
+	long			time_eat;
+	struct timeval	now;
 
 	i = -1;
 	while (philo->data->all_alive)
@@ -36,17 +37,10 @@ static int	check_death(t_philo *philo)
 		i = -1;
 		while (++i < philo->data->nbr_philo)
 		{
-			if (philo[i].last_eat == 0)
-				philo[i].last_eat = philo->data->initial.tv_sec * 1000 + \
-				philo->data->initial.tv_usec / 1000;
-			if (philo[i].cur_eat == 0)
-				philo[i].cur_eat = philo->data->initial.tv_sec * 1000 + \
-				philo->data->initial.tv_usec / 1000;
-			// printf("last eat = %ld\n", philo[i].last_eat);
-			// printf("cur eat = %ld\n", philo[i].cur_eat);
-			// printf("ttd = %ld\n", philo->data->time_to_die);
-			// printf("calcul = %ld\n", philo[i].cur_eat - philo[i].last_eat);
-			if (philo[i].cur_eat - philo[i].last_eat > philo->data->time_to_die)
+			gettimeofday(&now, NULL);
+			time_eat = (now.tv_sec - philo[i].last_eat.tv_sec) * 1000 + \
+			(now.tv_usec - philo[i].last_eat.tv_usec) / 1000;
+			if (time_eat > philo->data->time_to_eat)
 			{
 				display_status(&philo[i], 4);
 				philo->data->all_alive = 0;
@@ -56,13 +50,10 @@ static int	check_death(t_philo *philo)
 					pthread_mutex_unlock(&philo->data->fork[i]);
 					pthread_mutex_destroy(&philo->data->fork[i]);
 				}
-				return (0);
+				return ;
 			}
-			philo[i].last_eat = philo[i].cur_eat;
-			// printf("last eat = %ld\nend of loop\n", philo[i].last_eat);
 		}
 	}
-	return (1);
 }
 
 static void	forks_and_eat(t_philo *philo)
@@ -84,9 +75,7 @@ static void	forks_and_eat(t_philo *philo)
 	{
 		display_status(philo, 2);
 		usleep(philo->data->time_to_eat * 1000);
-		gettimeofday(&philo->new_eat, NULL);
-		philo->cur_eat = philo->new_eat.tv_sec * 1000 + \
-		philo->new_eat.tv_usec / 1000;
+		gettimeofday(&philo->last_eat, NULL);
 		pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
 		pthread_mutex_unlock(&philo->data->fork[philo->id % \
 		philo->data->nbr_philo]);
@@ -100,24 +89,24 @@ static void	forks_and_eat(t_philo *philo)
 
 static void	*start_routine(void *arg)
 {
-	int		index;
+	int		eat_count;
 	t_philo	*philo;
 
-	index = 0;
+	eat_count = 0;
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
-		usleep(50);
+	if (philo->id % 2 != 0)
+		usleep(philo->data->time_to_eat - (philo->data->time_to_eat / 10));
 	if (philo->data->nbr_must_eat == -1)
 		while (philo->data->all_alive)
 			forks_and_eat(philo);
 	else
 	{
-		while (index < philo->data->nbr_must_eat && philo->data->all_alive)
+		while (eat_count < philo->data->nbr_must_eat && philo->data->all_alive)
 		{
 			forks_and_eat(philo);
-			index++;
+			eat_count++;
 		}
-		if (index == philo->data->nbr_must_eat)
+		if (eat_count == philo->data->nbr_must_eat)
 			philo->data->all_alive = 0;
 	}
 	return (NULL);
