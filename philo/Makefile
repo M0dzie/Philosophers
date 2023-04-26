@@ -6,7 +6,7 @@
 #    By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#              #
-#    Updated: 2023/04/25 15:29:51 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/04/26 13:51:02 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ HEADER		=	includes/philosophers.h
 
 MAKEFILE	=	Makefile
 
-CFLAGS 		= 	-Wall -Wextra -Werror #-fsanitize=thread -g3
+CFLAGS 		= 	-Wall -Wextra -Werror -g3 -fsanitize=thread
 PFLAGS		=	-pthread
 
 RM 			= 	rm -rf
@@ -92,4 +92,4 @@ re:
 			$(MAKE) fclean
 			$(MAKE) all
 
-.PHONY:		all clean fclean re 
+.PHONY:		all clean fclean re

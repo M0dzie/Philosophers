@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/25 15:19:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/26 14:01:09 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	display_status(t_philo *philo, int status)
 {
 	char	*msg[5];
 
+	(void) msg;
+	(void) status;
 	msg[0] = "is thinking\n";
 	msg[1] = "has taken a fork\n";
 	msg[2] = "is eating\n";
@@ -74,6 +76,22 @@ void	display_status(t_philo *philo, int status)
 	pthread_mutex_unlock(&philo->data->write);
 }
 
-// void	ft_usleep(int time)
+// void	ft_usleep(int usleep_time, t_data *data)
 // {
+// 	long			sleep;
+// 	struct timeval	time;
+
+// 	if (usleep_time > 2000)
+// 		return (usleep(usleep_time));
+// 	gettimeofday(&time, NULL);
+// 	sleep = time.tv_sec * 1000 + time.tv_usec / 1000;
+// 	usleep(usleep_time - usleep_time / 10);
+// 	while (data->all_alive)
+// 	{
+// 		gettimeofday(&time, NULL);
+// 		if ((time.tv_sec * 1000 + time.tv_usec / 1000) > sleep)
+// 			usleep(100);
+// 		else
+// 			return ;
+// 	}
 // }

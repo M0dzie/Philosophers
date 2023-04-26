@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/25 16:10:04 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/26 14:10:33 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	init_philo(t_philo *philo, t_data *data)
 		philo[i].id = i + 1;
 		philo[i].data = data;
 		philo[i].last_eat = data->now;
+		philo[i].is_alive = 1;
 	}
 }
 
@@ -31,7 +32,6 @@ static void	check_death(t_philo *philo)
 	long			time_eat;
 	struct timeval	now;
 
-	i = -1;
 	while (philo->data->all_alive)
 	{
 		i = -1;
@@ -40,10 +40,12 @@ static void	check_death(t_philo *philo)
 			gettimeofday(&now, NULL);
 			time_eat = (now.tv_sec - philo[i].last_eat.tv_sec) * 1000 + \
 			(now.tv_usec - philo[i].last_eat.tv_usec) / 1000;
-			if (time_eat > philo->data->time_to_die)
+			if (time_eat >= philo->data->time_to_die)
 			{
 				display_status(&philo[i], 4);
+				// lock
 				philo->data->all_alive = 0;
+				// unlock
 				i = -1;
 				while (++i < philo->data->nbr_philo)
 				{
