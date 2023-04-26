@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/26 14:10:33 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/26 15:11:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	init_philo(t_philo *philo, t_data *data)
 		philo[i].data = data;
 		philo[i].last_eat = data->now;
 		philo[i].is_alive = 1;
+		pthread_mutex_init(&philo[i].mutex_philo, NULL);
 	}
 }
 
@@ -32,7 +33,7 @@ static void	check_death(t_philo *philo)
 	long			time_eat;
 	struct timeval	now;
 
-	while (philo->data->all_alive)
+	while (philo->is_alive)
 	{
 		i = -1;
 		while (++i < philo->data->nbr_philo)
@@ -43,9 +44,9 @@ static void	check_death(t_philo *philo)
 			if (time_eat >= philo->data->time_to_die)
 			{
 				display_status(&philo[i], 4);
-				// lock
-				philo->data->all_alive = 0;
-				// unlock
+				pthread_mutex_lock(&philo->mutex_philo);
+				philo->is_alive = 0;
+				pthread_mutex_unlock(&philo->mutex_philo);
 				i = -1;
 				while (++i < philo->data->nbr_philo)
 				{
@@ -60,20 +61,20 @@ static void	check_death(t_philo *philo)
 
 static void	forks_and_eat(t_philo *philo)
 {
-	if (philo->data->all_alive)
+	if (philo->is_alive)
 		display_status(philo, 0);
-	if (philo->data->all_alive)
+	if (philo->is_alive)
 	{
 		pthread_mutex_lock(&philo->data->fork[philo->id - 1]);
 		display_status(philo, 1);
 	}
-	if (philo->data->all_alive)
+	if (philo->is_alive)
 	{
 		pthread_mutex_lock(&philo->data->fork[philo->id % \
 		philo->data->nbr_philo]);
 		display_status(philo, 1);
 	}
-	if (philo->data->all_alive)
+	if (philo->is_alive)
 	{
 		display_status(philo, 2);
 		usleep(philo->data->time_to_eat * 1000);
@@ -82,7 +83,7 @@ static void	forks_and_eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->fork[philo->id % \
 		philo->data->nbr_philo]);
 	}
-	if (philo->data->all_alive)
+	if (philo->is_alive)
 	{
 		display_status(philo, 3);
 		usleep(philo->data->time_to_sleep * 1000);
@@ -99,17 +100,17 @@ static void	*start_routine(void *arg)
 	if (philo->id % 2 != 0)
 		usleep(philo->data->time_to_eat - (philo->data->time_to_eat / 10));
 	if (philo->data->nbr_must_eat == -1)
-		while (philo->data->all_alive)
+		while (philo->is_alive)
 			forks_and_eat(philo);
 	else
 	{
-		while (eat_count < philo->data->nbr_must_eat && philo->data->all_alive)
+		while (eat_count < philo->data->nbr_must_eat && philo->is_alive)
 		{
 			forks_and_eat(philo);
 			eat_count++;
 		}
 		if (eat_count == philo->data->nbr_must_eat)
-			philo->data->all_alive = 0;
+			philo->is_alive = 0;
 	}
 	return (NULL);
 }
