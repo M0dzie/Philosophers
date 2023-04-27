@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/27 11:27:24 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:26:30 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ static void	init_philo(t_philo *philo, t_data *data)
 	}
 }
 
-static void	end_mutex(t_data *data)
+static void	destroy_mutex(t_philo *philo, t_data *data)
 {
 	int	i;
 
 	i = -1;
 	while (++i < data->nbr_philo)
+	{
 		pthread_mutex_destroy(&data->fork[i]);
+		pthread_mutex_destroy(&philo[i].mutex_philo);
+	}
+	pthread_mutex_destroy(&data->write);
 }
 
 static void	forks_and_eat(t_philo *philo)
@@ -112,6 +116,6 @@ void	*create_thread(t_data *data)
 	check_death(philo);
 	while (++i < data->nbr_philo)
 		pthread_join(ph_thread[i], NULL);
-	end_mutex(data);
+	destroy_mutex(philo, data);
 	return (free(data->fork), free(philo), free(ph_thread), NULL);
 }

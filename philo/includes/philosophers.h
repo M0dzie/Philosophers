@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/27 11:24:00 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:18:26 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ typedef struct s_philo
 	struct timeval	last_eat;
 }					t_philo;
 
-int		wrong_arg(char **argv);
 int		ft_isdigit(int c);
 int		ft_strlen(char *str);
+// int		philos_are_dead(t_philo *philo);
+int		wrong_arg(char **argv);
 
 long	ft_atoi(const char *str);
 

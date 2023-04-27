@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 09:50:33 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/27 11:24:32 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:18:23 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ void	lock_mutex_philo(t_philo *philo, int lock)
 		while (++i < philo->data->nbr_philo)
 			pthread_mutex_unlock(&philo[i].mutex_philo);
 }
+
+// int	philos_are_dead(t_philo *philo)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (++i < philo->data->nbr_philo)
+// 		if (!philo[i].is_alive)
+// 			return (1);
+// 	return (0);
+// }
 
 void	check_death(t_philo *philo)
 {
