@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/26 15:04:46 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/27 11:24:00 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ int		ft_strlen(char *str);
 
 long	ft_atoi(const char *str);
 
+void	check_death(t_philo *philo);
 void	*create_thread(t_data *data);
 void	display_error(char *str);
 void	display_status(t_philo *philo, int status);
+void	lock_mutex_philo(t_philo *philo, int lock);
 // void	ft_usleep(int usleep_time, t_data *data);
 
 #endif
