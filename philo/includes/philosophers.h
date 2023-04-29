@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 17:31:50 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 17:46:03 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int		ft_strlen(char *str);
 int		wrong_arg(char **argv);
 
 long	ft_atoi(const char *str);
+long	get_time(void);
 
 void	assign_forks(t_philo *philo, t_data *data);
 void	check_death(t_philo *philo);
@@ -56,10 +57,9 @@ void	*create_thread(t_data *data);
 void	display_error(char *str);
 void	display_status(t_philo *philo, int status);
 void	forks_and_eat(t_philo *philo);
-long	get_time(void);
+void	ft_usleep(long usleep_time);
 void	init_data(t_data *data, char **argv);
 void	init_philo(t_philo *philo, t_data *data);
 void	lock_mutex_philo(t_philo *philo, int lock);
-void	ft_usleep(long usleep_time);
 
 #endif
