@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 15:58:05 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 16:27:56 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ static void	take_forks(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->mutex_data);
 }
 
-void	forks_and_eat(t_philo *philo)
+static void	eating(t_philo *philo)
 {
-	thinking(philo);
-	take_forks(philo);
 	pthread_mutex_lock(&philo->data->mutex_data);
 	if (philo->data->all_alive)
 	{
@@ -61,9 +59,10 @@ void	forks_and_eat(t_philo *philo)
 	}
 	else
 		pthread_mutex_unlock(&philo->data->mutex_data);
-	pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
-	pthread_mutex_unlock(&philo->data->fork[philo->id % \
-	philo->data->nbr_philo]);
+}
+
+static void	sleeping(t_philo *philo)
+{
 	pthread_mutex_lock(&philo->data->mutex_data);
 	if (philo->data->all_alive)
 	{
@@ -73,4 +72,15 @@ void	forks_and_eat(t_philo *philo)
 	}
 	else
 		pthread_mutex_unlock(&philo->data->mutex_data);
+}
+
+void	forks_and_eat(t_philo *philo)
+{
+	thinking(philo);
+	take_forks(philo);
+	eating(philo);
+	pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
+	pthread_mutex_unlock(&philo->data->fork[philo->id % \
+	philo->data->nbr_philo]);
+	sleeping(philo);
 }
