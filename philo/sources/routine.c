@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 14:11:15 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 16:08:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static void	init_philo(t_philo *philo, t_data *data)
 		philo[i].id = i + 1;
 		philo[i].data = data;
 		philo[i].last_eat = init_p;
-		philo[i].is_alive = 1;
-		pthread_mutex_init(&philo[i].mutex_philo, NULL);
+		// philo[i].is_alive = 1;
+		// pthread_mutex_init(&philo[i].mutex_philo, NULL);
 	}
 }
 
-static void	destroy_mutex(t_philo *philo, t_data *data)
+static void	destroy_mutex(t_data *data)
 {
 	int	i;
 
@@ -37,36 +37,10 @@ static void	destroy_mutex(t_philo *philo, t_data *data)
 	while (++i < data->nbr_philo)
 	{
 		pthread_mutex_destroy(&data->fork[i]);
-		pthread_mutex_destroy(&philo[i].mutex_philo);
+		// pthread_mutex_destroy(&philo[i].mutex_philo);
 	}
 	pthread_mutex_destroy(&data->write);
-}
-
-static void	forks_and_eat(t_philo *philo)
-{
-	if (philo->is_alive)
-		display_status(philo, 0);
-	pthread_mutex_lock(&philo->data->fork[philo->id - 1]);
-	if (philo->is_alive)
-		display_status(philo, 1);
-	pthread_mutex_lock(&philo->data->fork[philo->id % \
-	philo->data->nbr_philo]);
-	if (philo->is_alive)
-		display_status(philo, 1);
-	if (philo->is_alive)
-	{
-		display_status(philo, 2);
-		usleep(philo->data->time_to_eat * 1000);
-		gettimeofday(&philo->last_eat, NULL);
-	}
-	pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
-	pthread_mutex_unlock(&philo->data->fork[philo->id % \
-	philo->data->nbr_philo]);
-	if (philo->is_alive)
-	{
-		display_status(philo, 3);
-		usleep(philo->data->time_to_sleep * 1000);
-	}
+	pthread_mutex_destroy(&data->mutex_data);
 }
 
 static void	*start_routine(void *arg)
@@ -79,17 +53,34 @@ static void	*start_routine(void *arg)
 	if (philo->id % 2 == 0)
 		usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) * 1000);
 	if (philo->data->nbr_must_eat == -1)
-		while (philo->is_alive)
+	{
+		while (1)
+		{
+			pthread_mutex_lock(&philo->data->mutex_data);
+			// if (!philo->is_alive)
+			if (!philo->data->all_alive)
+				return (pthread_mutex_unlock(&philo->data->mutex_data), NULL);
+			pthread_mutex_unlock(&philo->data->mutex_data);
 			forks_and_eat(philo);
+		}
+	}
 	else
 	{
-		while (eat_count < philo->data->nbr_must_eat && philo->is_alive)
+		while (eat_count < philo->data->nbr_must_eat)
 		{
+			pthread_mutex_lock(&philo->data->mutex_data);
+			if (!philo->data->all_alive)
+				return (pthread_mutex_unlock(&philo->data->mutex_data), NULL);
+			pthread_mutex_unlock(&philo->data->mutex_data);
 			forks_and_eat(philo);
 			eat_count++;
 		}
 		if (eat_count == philo->data->nbr_must_eat)
-			philo->is_alive = 0;
+		{
+			pthread_mutex_lock(&philo->data->mutex_data);
+			philo->data->all_alive = 0;
+			pthread_mutex_unlock(&philo->data->mutex_data);
+		}
 	}
 	return (NULL);
 }
@@ -116,6 +107,6 @@ void	*create_thread(t_data *data)
 	check_death(philo);
 	while (++i < data->nbr_philo)
 		pthread_join(ph_thread[i], NULL);
-	destroy_mutex(philo, data);
+	destroy_mutex(data);
 	return (free(data->fork), free(philo), free(ph_thread), NULL);
 }

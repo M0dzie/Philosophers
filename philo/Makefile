@@ -6,7 +6,7 @@
 #    By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#              #
-#    Updated: 2023/04/29 14:10:45 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/04/29 15:43:58 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ HEADER		=	includes/philosophers.h
 
 MAKEFILE	=	Makefile
 
-CFLAGS 		= 	-Wall -Wextra -Werror #-g3 -fsanitize=thread
+CFLAGS 		= 	-Wall -Wextra -Werror -g3 -fsanitize=thread
 PFLAGS		=	-pthread
 
 RM 			= 	rm -rf
@@ -44,7 +44,7 @@ OBJS_DIRS	=	$(SRCS_PATH).objs/
 #                SOURCES                #
 # ##################################### #
 
-SRC_FILES	=	error.c main.c utils.c routine.c check_death.c
+SRC_FILES	=	error.c main.c utils.c routine.c check_death.c actions.c
 
 SRCS	=	$(addprefix $(SRCS_PATH), $(SRC_FILES))
 
