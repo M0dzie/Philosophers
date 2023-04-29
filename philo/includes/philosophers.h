@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 17:46:03 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 18:52:11 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_data
 	pthread_mutex_t	mutex_data;
 	pthread_mutex_t	write;
 	pthread_mutex_t	*fork;
-	struct timeval	now;
 }					t_data;
 
 typedef struct s_philo

@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 18:37:52 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 18:49:36 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ static void	delimited_routine(t_philo *philo, t_data *data)
 		eat_count++;
 	}
 	if (eat_count == data->nbr_must_eat)
-		return (pthread_mutex_lock(&data->mutex_data), data->all_alive = 2, \
-		(void)pthread_mutex_unlock(&data->mutex_data));
+	{
+		pthread_mutex_lock(&data->mutex_data);
+		data->all_alive = 2;
+		pthread_mutex_unlock(&data->mutex_data);
+		return ;
+	}
 }
 
 static void	*start_routine(void *arg)
