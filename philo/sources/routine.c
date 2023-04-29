@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 16:57:41 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 17:14:50 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ static void	init_philo(t_philo *philo, t_data *data)
 	}
 }
 
-static void	destroy_mutex(t_data *data)
+static void	destroy_mutex(t_philo *philo, t_data *data)
 {
 	int	i;
 
 	i = -1;
 	while (++i < data->nbr_philo)
+	{
 		pthread_mutex_destroy(&data->fork[i]);
+		pthread_mutex_destroy(&philo[i].mutex_philo);
+	}
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->mutex_data);
 }
@@ -62,7 +65,7 @@ static void	*start_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) * 1000);
+		ft_usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) * 1000);
 	if (philo->data->nbr_must_eat == -1)
 	{
 		while (1)
@@ -101,6 +104,6 @@ void	*create_thread(t_data *data)
 	check_death(philo);
 	while (++i < data->nbr_philo)
 		pthread_join(ph_thread[i], NULL);
-	destroy_mutex(data);
+	destroy_mutex(philo, data);
 	return (free(data->fork), free(philo), free(ph_thread), NULL);
 }

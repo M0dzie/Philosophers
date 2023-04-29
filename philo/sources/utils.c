@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 16:54:04 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 17:20:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	display_status(t_philo *philo, int status)
 	pthread_mutex_unlock(&philo->data->write);
 }
 
-void	ft_usleep(int usleep_time)
+void	ft_usleep(long usleep_time)
 {
 	long	start;
 

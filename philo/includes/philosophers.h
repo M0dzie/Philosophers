@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 16:56:24 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 17:20:42 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ void	display_status(t_philo *philo, int status);
 void	forks_and_eat(t_philo *philo);
 long	get_time(void);
 void	lock_mutex_philo(t_philo *philo, int lock);
-// void	ft_usleep(int usleep_time);
+void	ft_usleep(long usleep_time);
 
 #endif
