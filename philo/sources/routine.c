@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 16:25:56 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 16:33:29 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,29 @@ static void	destroy_mutex(t_data *data)
 	pthread_mutex_destroy(&data->mutex_data);
 }
 
-static void	*start_routine(void *arg)
+static void	delimited_routine(t_philo *philo, t_data *data)
 {
-	int		eat_count;
-	t_philo	*philo;
+	int	eat_count;
 
 	eat_count = 0;
+	while (eat_count < data->nbr_must_eat)
+	{
+		pthread_mutex_lock(&data->mutex_data);
+		if (!data->all_alive)
+			return ((void)pthread_mutex_unlock(&data->mutex_data));
+		pthread_mutex_unlock(&data->mutex_data);
+		forks_and_eat(philo);
+		eat_count++;
+	}
+	if (eat_count == data->nbr_must_eat)
+		return (pthread_mutex_lock(&data->mutex_data), data->all_alive = 2, \
+		(void)pthread_mutex_unlock(&data->mutex_data));
+}
+
+static void	*start_routine(void *arg)
+{
+	t_philo	*philo;
+
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
 		usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) * 1000);
@@ -59,20 +76,7 @@ static void	*start_routine(void *arg)
 		}
 	}
 	else
-	{
-		while (eat_count < philo->data->nbr_must_eat)
-		{
-			pthread_mutex_lock(&philo->data->mutex_data);
-			if (!philo->data->all_alive)
-				return (pthread_mutex_unlock(&philo->data->mutex_data), NULL);
-			pthread_mutex_unlock(&philo->data->mutex_data);
-			forks_and_eat(philo);
-			eat_count++;
-		}
-		if (eat_count == philo->data->nbr_must_eat)
-			return (pthread_mutex_lock(&philo->data->mutex_data), \
-philo->data->all_alive = 2, pthread_mutex_unlock(&philo->data->mutex_data), NULL);
-	}
+		delimited_routine(philo, philo->data);
 	return (NULL);
 }
 
