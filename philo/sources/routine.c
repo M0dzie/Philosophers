@@ -6,25 +6,11 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 17:14:50 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 17:31:43 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-
-static void	init_philo(t_philo *philo, t_data *data)
-{
-	int				i;
-
-	i = -1;
-	while (++i < data->nbr_philo)
-	{
-		philo[i].id = i + 1;
-		philo[i].data = data;
-		philo[i].last_eat = get_time();
-		pthread_mutex_init(&philo[i].mutex_philo, NULL);
-	}
-}
 
 static void	destroy_mutex(t_philo *philo, t_data *data)
 {
@@ -35,6 +21,8 @@ static void	destroy_mutex(t_philo *philo, t_data *data)
 	{
 		pthread_mutex_destroy(&data->fork[i]);
 		pthread_mutex_destroy(&philo[i].mutex_philo);
+		pthread_mutex_destroy(&philo[i].l_fork);
+		pthread_mutex_destroy(&philo[i].r_fork);
 	}
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->mutex_data);
@@ -65,7 +53,7 @@ static void	*start_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		ft_usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) * 1000);
+		usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) * 1000);
 	if (philo->data->nbr_must_eat == -1)
 	{
 		while (1)
@@ -97,6 +85,7 @@ void	*create_thread(t_data *data)
 	i = -1;
 	while (++i < data->nbr_philo)
 		pthread_mutex_init(&data->fork[i], NULL);
+	assign_forks(philo, data);
 	i = -1;
 	while (++i < data->nbr_philo)
 		pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]);

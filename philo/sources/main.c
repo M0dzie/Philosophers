@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 16:54:08 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 17:28:23 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,6 @@ long	get_time(void)
 
 	gettimeofday(&current, NULL);
 	return (current.tv_sec * 1000 + current.tv_usec / 1000);
-}
-
-static void	init_data(t_data *data, char **argv)
-{
-	pthread_mutex_init(&data->write, NULL);
-	pthread_mutex_init(&data->mutex_data, NULL);
-	data->time_init = get_time();
-	data->all_alive = 1;
-	data->nbr_philo = ft_atoi(argv[1]);
-	data->time_to_die = ft_atoi(argv[2]);
-	data->time_to_eat = ft_atoi(argv[3]);
-	data->time_to_sleep = ft_atoi(argv[4]);
-	if (argv[5])
-		data->nbr_must_eat = ft_atoi(argv[5]);
-	else
-		data->nbr_must_eat = -1;
 }
 
 int	main(int argc, char **argv)
