@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/27 13:26:30 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 14:11:15 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	*start_routine(void *arg)
 	eat_count = 0;
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		usleep(philo->data->time_to_eat - (philo->data->time_to_eat / 10));
+		usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) * 1000);
 	if (philo->data->nbr_must_eat == -1)
 		while (philo->is_alive)
 			forks_and_eat(philo);
