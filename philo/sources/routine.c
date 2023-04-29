@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 16:08:47 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 16:16:13 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static void	init_philo(t_philo *philo, t_data *data)
 		philo[i].id = i + 1;
 		philo[i].data = data;
 		philo[i].last_eat = init_p;
-		// philo[i].is_alive = 1;
-		// pthread_mutex_init(&philo[i].mutex_philo, NULL);
 	}
 }
 
@@ -35,10 +33,7 @@ static void	destroy_mutex(t_data *data)
 
 	i = -1;
 	while (++i < data->nbr_philo)
-	{
 		pthread_mutex_destroy(&data->fork[i]);
-		// pthread_mutex_destroy(&philo[i].mutex_philo);
-	}
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->mutex_data);
 }
@@ -57,7 +52,6 @@ static void	*start_routine(void *arg)
 		while (1)
 		{
 			pthread_mutex_lock(&philo->data->mutex_data);
-			// if (!philo->is_alive)
 			if (!philo->data->all_alive)
 				return (pthread_mutex_unlock(&philo->data->mutex_data), NULL);
 			pthread_mutex_unlock(&philo->data->mutex_data);
@@ -78,7 +72,7 @@ static void	*start_routine(void *arg)
 		if (eat_count == philo->data->nbr_must_eat)
 		{
 			pthread_mutex_lock(&philo->data->mutex_data);
-			philo->data->all_alive = 0;
+			philo->data->all_alive = 2;
 			pthread_mutex_unlock(&philo->data->mutex_data);
 		}
 	}
