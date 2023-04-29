@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 15:12:31 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 16:54:04 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,24 @@ long	ft_atoi(const char *str)
 void	display_status(t_philo *philo, int status)
 {
 	char	*msg[5];
+	long	now;
 
-	(void) msg;
-	(void) status;
 	msg[0] = "is thinking\n";
 	msg[1] = "has taken a fork\n";
 	msg[2] = "is eating\n";
 	msg[3] = "is sleeping\n";
 	msg[4] = "died\n";
-	gettimeofday(&philo->data->now, NULL);
+	now = get_time();
 	pthread_mutex_lock(&philo->data->write);
-	printf("%ld %d %s", (philo->data->now.tv_sec * 1000 + \
-	philo->data->now.tv_usec / 1000) - philo->data->time_init, \
-	philo->id, msg[status]);
+	printf("%ld %d %s", now - philo->data->time_init, philo->id, msg[status]);
 	pthread_mutex_unlock(&philo->data->write);
 }
 
-// void	ft_usleep(int usleep_time)
-// {
-// 	long			start;
-// 	struct timeval	now;
+void	ft_usleep(int usleep_time)
+{
+	long	start;
 
-// 	gettimeofday(&now, NULL);
-// 	start = now.tv_sec * 1000 + now.tv_usec / 1000;
-// 	while ((get_time() - start) < time)
-// 		usleep(usleep_time / 10);
-// 	return (0);
-// }
+	start = get_time();
+	while ((get_time() - start) < usleep_time)
+		usleep(usleep_time / 10);
+}

@@ -6,20 +6,25 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 15:58:55 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 16:54:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+long	get_time(void)
+{
+	struct timeval	current;
+
+	gettimeofday(&current, NULL);
+	return (current.tv_sec * 1000 + current.tv_usec / 1000);
+}
+
 static void	init_data(t_data *data, char **argv)
 {
-	struct timeval	init_d;
-
 	pthread_mutex_init(&data->write, NULL);
 	pthread_mutex_init(&data->mutex_data, NULL);
-	gettimeofday(&init_d, NULL);
-	data->time_init = init_d.tv_sec * 1000 + init_d.tv_usec / 1000;
+	data->time_init = get_time();
 	data->all_alive = 1;
 	data->nbr_philo = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);

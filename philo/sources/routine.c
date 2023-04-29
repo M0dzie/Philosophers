@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 16:33:29 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/29 16:57:41 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 static void	init_philo(t_philo *philo, t_data *data)
 {
 	int				i;
-	struct timeval	init_p;
 
 	i = -1;
-	gettimeofday(&init_p, NULL);
 	while (++i < data->nbr_philo)
 	{
 		philo[i].id = i + 1;
 		philo[i].data = data;
-		philo[i].last_eat = init_p;
+		philo[i].last_eat = get_time();
+		pthread_mutex_init(&philo[i].mutex_philo, NULL);
 	}
 }
 
