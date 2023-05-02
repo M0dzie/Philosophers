@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 09:50:33 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 13:15:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 15:43:20 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@ static int	special_case(t_philo *philo)
 		return (pthread_mutex_unlock(&philo->data->mutex_data), 1);
 	pthread_mutex_unlock(&philo->data->mutex_data);
 	return (0);
-}
-
-void	*philo_solo(t_philo *philo)
-{
-	display_status(philo, 0);
-	display_status(philo, 1);
-	usleep(philo->data->time_to_die * 1000);
-	display_status(philo, 4);
-	return (NULL);
 }
 
 void	check_death(t_philo *philo)
