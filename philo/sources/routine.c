@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 18:55:09 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 19:07:06 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ static void	destroy_mutex(t_philo *philo, t_data *data)
 	{
 		pthread_mutex_destroy(&data->fork[i]);
 		pthread_mutex_destroy(&philo[i].mutex_philo);
-		free(philo[i].r_fork);
-		if (data->nbr_philo > 1)
-			free(philo[i].l_fork);
-		pthread_mutex_destroy(philo[i].r_fork);
-		if (data->nbr_philo > 1)
-			pthread_mutex_destroy(philo[i].l_fork);
 	}
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->mutex_data);
