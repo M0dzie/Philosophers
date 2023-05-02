@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 18:37:57 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 11:34:39 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static void	take_forks(t_philo *philo)
 	if (philo->data->all_alive)
 	{
 		pthread_mutex_unlock(&philo->data->mutex_data);
-		display_status(philo, 1);
 		pthread_mutex_lock(&philo->l_fork);
+		display_status(philo, 1);
 	}
 	else
 		pthread_mutex_unlock(&philo->data->mutex_data);
@@ -39,8 +39,8 @@ static void	take_forks(t_philo *philo)
 	if (philo->data->all_alive)
 	{
 		pthread_mutex_unlock(&philo->data->mutex_data);
-		display_status(philo, 1);
 		pthread_mutex_lock(&philo->r_fork);
+		display_status(philo, 1);
 	}
 	else
 		pthread_mutex_unlock(&philo->data->mutex_data);
