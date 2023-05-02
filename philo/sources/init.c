@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:27:56 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 15:56:24 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 18:38:59 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	init_philo(t_philo *philo, t_data *data)
 	while (++i < data->nbr_philo)
 	{
 		philo[i].r_fork = malloc(sizeof(pthread_mutex_t));
-		philo[i].l_fork = malloc(sizeof(pthread_mutex_t));
+		if (data->nbr_philo > 1)
+			philo[i].l_fork = malloc(sizeof(pthread_mutex_t));
 		philo[i].id = i + 1;
 		philo[i].data = data;
 		philo[i].last_eat = data->time_init;

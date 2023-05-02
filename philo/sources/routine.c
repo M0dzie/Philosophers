@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 18:25:26 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 18:55:09 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static void	destroy_mutex(t_philo *philo, t_data *data)
 	{
 		pthread_mutex_destroy(&data->fork[i]);
 		pthread_mutex_destroy(&philo[i].mutex_philo);
-		// free(philo[i].r_fork);
-		// free(philo[i].l_fork);
+		free(philo[i].r_fork);
+		if (data->nbr_philo > 1)
+			free(philo[i].l_fork);
 		pthread_mutex_destroy(philo[i].r_fork);
 		if (data->nbr_philo > 1)
 			pthread_mutex_destroy(philo[i].l_fork);
@@ -96,11 +97,13 @@ void	*create_thread(t_data *data)
 	assign_forks(philo, data);
 	i = -1;
 	while (++i < data->nbr_philo)
-		pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]);
+		if (pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]))
+			display_error("Error while creating threads");
 	i = -1;
 	check_death(philo);
 	while (++i < data->nbr_philo)
-		pthread_join(ph_thread[i], NULL);
+		if (pthread_join(ph_thread[i], NULL))
+			display_error("Error while joining threads");
 	destroy_mutex(philo, data);
 	return (free(data->fork), free(philo), free(ph_thread), NULL);
 }
