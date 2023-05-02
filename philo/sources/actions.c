@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 15:51:10 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 18:31:17 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,29 @@ static void	thinking(t_philo *philo)
 
 static void	take_forks(t_philo *philo)
 {
+	pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(&philo->data->mutex_data);
 	if (philo->data->all_alive)
 	{
 		pthread_mutex_unlock(&philo->data->mutex_data);
-		pthread_mutex_lock(philo->r_fork);
 		display_status(philo, 1);
 	}
 	else
 		pthread_mutex_unlock(&philo->data->mutex_data);
-	pthread_mutex_lock(&philo->data->mutex_data);
-	if (philo->data->all_alive)
+	if (philo->data->nbr_philo > 1)
 	{
-		pthread_mutex_unlock(&philo->data->mutex_data);
 		pthread_mutex_lock(philo->l_fork);
-		display_status(philo, 1);
+		pthread_mutex_lock(&philo->data->mutex_data);
+		if (philo->data->all_alive)
+		{
+			pthread_mutex_unlock(&philo->data->mutex_data);
+			display_status(philo, 1);
+		}
+		else
+			pthread_mutex_unlock(&philo->data->mutex_data);
 	}
 	else
-		pthread_mutex_unlock(&philo->data->mutex_data);
+		usleep(philo->data->time_to_die * 1000);
 }
 
 static void	eating(t_philo *philo)
@@ -81,6 +86,7 @@ void	forks_and_eat(t_philo *philo)
 	take_forks(philo);
 	eating(philo);
 	pthread_mutex_unlock(philo->r_fork);
-	pthread_mutex_unlock(philo->l_fork);
+	if (philo->data->nbr_philo > 1)
+		pthread_mutex_unlock(philo->l_fork);
 	sleeping(philo);
 }
