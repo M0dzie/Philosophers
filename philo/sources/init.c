@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:27:56 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 11:34:29 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 12:52:43 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,9 @@ void	assign_forks(t_philo *philo, t_data *data)
 	int	i;
 
 	i = -1;
-	if (data->nbr_philo == 1)
-	{
-		philo[0].l_fork = data->fork[philo[0].id - 1];
-		return ;
-	}
 	while (++i < data->nbr_philo)
 	{
-		philo[i].l_fork = data->fork[philo[i].id - 1];
-		philo[i].r_fork = data->fork[philo[i].id % data->nbr_philo];
+		philo[i].l_fork = data->fork[philo[i].id % data->nbr_philo];
+		philo[i].r_fork = data->fork[philo[i].id - 1];
 	}
 }

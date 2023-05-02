@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 18:56:35 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 13:27:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ void	display_status(t_philo *philo, int status)
 	pthread_mutex_unlock(&philo->data->write);
 }
 
-void	ft_usleep(long usleep_time)
-{
-	long	start;
+// void	ft_usleep(long usleep_time)
+// {
+// 	long	start;
 
-	start = get_time();
-	while ((get_time() - start) < usleep_time)
-		usleep(usleep_time / 10);
-}
+// 	start = get_time();
+// 	while ((get_time() - start) < usleep_time)
+// 		usleep(usleep_time / 10);
+// }

@@ -6,7 +6,7 @@
 #    By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#              #
-#    Updated: 2023/05/02 11:19:32 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/05/02 14:15:20 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ HEADER		=	includes/philosophers.h
 
 MAKEFILE	=	Makefile
 
-CFLAGS 		= 	-Wall -Wextra -Werror -g3 -fsanitize=thread
+CFLAGS 		= 	-Wall -Wextra -Werror #-g3 -fsanitize=thread
 PFLAGS		=	-pthread
 
 RM 			= 	rm -rf

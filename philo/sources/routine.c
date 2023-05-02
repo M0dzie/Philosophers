@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 10:18:11 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/02 13:39:56 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	*create_thread(t_data *data)
 	while (++i < data->nbr_philo)
 		pthread_mutex_init(&data->fork[i], NULL);
 	assign_forks(philo, data);
+	if (data->nbr_philo == 1)
+		return (philo_solo(philo));
 	i = -1;
 	while (++i < data->nbr_philo)
 		pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]);
