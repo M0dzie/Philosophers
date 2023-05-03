@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 11:06:20 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 14:21:36 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	thinking(t_philo *philo)
 
 static void	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(&philo->data->fork[philo->id - 1]);
+	// pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(&philo->data->mutex_data);
 	if (philo->data->all_alive)
 	{
@@ -37,7 +38,9 @@ static void	take_forks(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->mutex_data);
 	if (philo->data->nbr_philo > 1)
 	{
-		pthread_mutex_lock(philo->l_fork);
+		// pthread_mutex_lock(philo->l_fork);
+		pthread_mutex_lock(&philo->data->fork[philo->id % \
+		philo->data->nbr_philo]);
 		pthread_mutex_lock(&philo->data->mutex_data);
 		if (philo->data->all_alive)
 		{
@@ -48,7 +51,8 @@ static void	take_forks(t_philo *philo)
 			pthread_mutex_unlock(&philo->data->mutex_data);
 	}
 	else
-		usleep(philo->data->time_to_die * 1000);
+		ft_usleep(philo->data->time_to_die);
+		// usleep(philo->data->time_to_die * 1000);
 }
 
 static void	eating(t_philo *philo)
@@ -58,6 +62,7 @@ static void	eating(t_philo *philo)
 	{
 		pthread_mutex_unlock(&philo->data->mutex_data);
 		display_status(philo, 2);
+		ft_usleep(philo->data->time_to_eat);
 		usleep(philo->data->time_to_eat * 1000);
 		pthread_mutex_lock(&philo->mutex_philo);
 		philo->last_eat = get_time();
@@ -74,6 +79,7 @@ static void	sleeping(t_philo *philo)
 	{
 		pthread_mutex_unlock(&philo->data->mutex_data);
 		display_status(philo, 3);
+		ft_usleep(philo->data->time_to_sleep);
 		usleep(philo->data->time_to_sleep * 1000);
 	}
 	else
@@ -85,8 +91,11 @@ void	forks_and_eat(t_philo *philo)
 	thinking(philo);
 	take_forks(philo);
 	eating(philo);
-	pthread_mutex_unlock(philo->r_fork);
+	// pthread_mutex_unlock(philo->r_fork);
+	// pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
 	if (philo->data->nbr_philo > 1)
-		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(&philo->data->fork[philo->id % \
+		philo->data->nbr_philo]);
 	sleeping(philo);
 }
