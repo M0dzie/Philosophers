@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 13:58:40 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 14:52:27 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	delimited_routine(t_philo *philo, t_data *data)
 	int	eat_count;
 
 	eat_count = 0;
-	while (eat_count < data->nbr_must_eat)
+	while (1)
 	{
 		pthread_mutex_lock(&data->mutex_data);
 		if (!data->all_alive)
@@ -39,13 +39,13 @@ static void	delimited_routine(t_philo *philo, t_data *data)
 		pthread_mutex_unlock(&data->mutex_data);
 		forks_and_eat(philo);
 		eat_count++;
-	}
-	if (eat_count == data->nbr_must_eat)
-	{
-		pthread_mutex_lock(&data->mutex_data);
-		data->all_alive = 2;
-		pthread_mutex_unlock(&data->mutex_data);
-		return ;
+		if (eat_count == data->nbr_must_eat)
+		{
+			pthread_mutex_lock(&data->mutex_data);
+			data->all_alive = 2;
+			pthread_mutex_unlock(&data->mutex_data);
+			return ;
+		}
 	}
 }
 
@@ -55,9 +55,8 @@ static void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		ft_usleep(philo->data->time_to_eat - (philo->data->time_to_eat / 10));
-		/*usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) \
-		* 1000);*/
+		usleep((philo->data->time_to_eat - (philo->data->time_to_eat / 10)) \
+		* 1000);
 	if (philo->data->nbr_must_eat == -1)
 	{
 		while (1)
@@ -89,7 +88,6 @@ void	*create_thread(t_data *data)
 	i = -1;
 	while (++i < data->nbr_philo)
 		pthread_mutex_init(&data->fork[i], NULL);
-	// assign_forks(philo, data);
 	i = -1;
 	while (++i < data->nbr_philo)
 		if (pthread_create(&ph_thread[i], NULL, routine, (void *)&philo[i]))

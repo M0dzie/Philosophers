@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 13:57:56 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 14:51:49 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,4 @@ void	display_status(t_philo *philo, int status)
 	now = get_time();
 	printf("%ld %d %s", now - philo->data->time_init, philo->id, msg[status]);
 	pthread_mutex_unlock(&philo->data->write);
-}
-
-void	ft_usleep(long usleep_time)
-{
-	long	start;
-
-	start = get_time();
-	while ((get_time() - start) < usleep_time)
-		usleep(usleep_time / 10);
 }

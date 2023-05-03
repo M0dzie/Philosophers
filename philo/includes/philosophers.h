@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 13:57:54 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 14:51:43 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ typedef struct s_philo
 	int				id;
 	long			last_eat;
 	t_data			*data;
-	// pthread_mutex_t	*r_fork;
-	// pthread_mutex_t	*l_fork;
 	pthread_mutex_t	mutex_philo;
-	// struct timeval	last_eat;
 }					t_philo;
 
 int		ft_isdigit(int c);
@@ -51,13 +48,11 @@ int		wrong_arg(char **argv);
 long	ft_atoi(const char *str);
 long	get_time(void);
 
-// void	assign_forks(t_philo *philo, t_data *data);
 void	check_death(t_philo *philo);
 void	*create_thread(t_data *data);
 void	display_error(char *str);
 void	display_status(t_philo *philo, int status);
 void	forks_and_eat(t_philo *philo);
-void	ft_usleep(long usleep_time);
 void	init_data(t_data *data, char **argv);
 void	init_philo(t_philo *philo, t_data *data);
 void	lock_mutex_philo(t_philo *philo, int lock);
