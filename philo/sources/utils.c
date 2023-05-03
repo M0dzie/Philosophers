@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 09:39:37 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 10:12:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	display_status(t_philo *philo, int status)
 	msg[2] = "is eating\n";
 	msg[3] = "is sleeping\n";
 	msg[4] = "died\n";
-	now = get_time();
 	pthread_mutex_lock(&philo->data->write);
+	now = get_time();
 	printf("%ld %d %s", now - philo->data->time_init, philo->id, msg[status]);
 	pthread_mutex_unlock(&philo->data->write);
 }
