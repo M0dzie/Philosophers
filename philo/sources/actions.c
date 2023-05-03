@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 14:52:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 22:44:21 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ static void	eating(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->mutex_data);
 		display_status(philo, 2);
 		usleep(philo->data->time_to_eat * 1000);
-		pthread_mutex_lock(&philo->mutex_philo);
-		philo->last_eat = get_time();
-		pthread_mutex_unlock(&philo->mutex_philo);
 	}
 	else
 		pthread_mutex_unlock(&philo->data->mutex_data);
+	pthread_mutex_lock(&philo->mutex_philo);
+	philo->last_eat = get_time();
+	pthread_mutex_unlock(&philo->mutex_philo);
 }
 
 static void	sleeping(t_philo *philo)

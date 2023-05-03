@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 14:51:49 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 22:52:23 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ long	ft_atoi(const char *str)
 void	display_status(t_philo *philo, int status)
 {
 	char	*msg[5];
-	long	now;
 
 	msg[0] = "is thinking\n";
 	msg[1] = "has taken a fork\n";
@@ -68,7 +67,6 @@ void	display_status(t_philo *philo, int status)
 	msg[3] = "is sleeping\n";
 	msg[4] = "died\n";
 	pthread_mutex_lock(&philo->data->write);
-	now = get_time();
-	printf("%ld %d %s", now - philo->data->time_init, philo->id, msg[status]);
+	printf("%ld %d %s", get_time() - philo->data->time_init, philo->id, msg[status]);
 	pthread_mutex_unlock(&philo->data->write);
 }

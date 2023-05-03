@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/29 17:28:23 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 22:39:35 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ long	get_time(void)
 {
 	struct timeval	current;
 
-	gettimeofday(&current, NULL);
+	if (gettimeofday(&current, NULL) == -1)
+		return (display_error("gettimeofday() failed"), 0);
 	return (current.tv_sec * 1000 + current.tv_usec / 1000);
 }
 
