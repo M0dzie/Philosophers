@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 19:07:06 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 09:43:16 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	delimited_routine(t_philo *philo, t_data *data)
 	}
 }
 
-static void	*start_routine(void *arg)
+static void	*routine(void *arg)
 {
 	t_philo	*philo;
 
@@ -91,13 +91,13 @@ void	*create_thread(t_data *data)
 	assign_forks(philo, data);
 	i = -1;
 	while (++i < data->nbr_philo)
-		if (pthread_create(&ph_thread[i], NULL, start_routine, (void *)&philo[i]))
-			display_error("Error while creating threads");
+		if (pthread_create(&ph_thread[i], NULL, routine, (void *)&philo[i]))
+			return (display_error("Error while creating threads"), NULL);
 	i = -1;
 	check_death(philo);
 	while (++i < data->nbr_philo)
 		if (pthread_join(ph_thread[i], NULL))
-			display_error("Error while joining threads");
+			return (display_error("Error while joining threads"), NULL);
 	destroy_mutex(philo, data);
 	return (free(data->fork), free(philo), free(ph_thread), NULL);
 }

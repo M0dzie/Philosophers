@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_death.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 09:50:33 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/02 18:34:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/03 09:44:27 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	check_death(t_philo *philo)
 {
 	int				i;
 	long			time_eat;
-	long			cur_time;
 
 	while (1)
 	{
@@ -34,9 +33,8 @@ void	check_death(t_philo *philo)
 		i = -1;
 		while (++i < philo->data->nbr_philo)
 		{
-			cur_time = get_time();
 			pthread_mutex_lock(&philo[i].mutex_philo);
-			time_eat = cur_time - philo[i].last_eat;
+			time_eat = get_time() - philo[i].last_eat;
 			pthread_mutex_unlock(&philo[i].mutex_philo);
 			if (time_eat > philo->data->time_to_die)
 			{
