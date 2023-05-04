@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/04 10:16:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/04 12:49:59 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,29 @@ static void	destroy_mutex(t_philo *philo, t_data *data)
 	}
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->mutex_data);
+}
+
+static void	forks_and_eat(t_philo *philo, t_data *data)
+{
+	thinking(philo, data);
+	if (philo->id == data->nbr_philo)
+		take_last_forks(philo, data);
+	else
+		take_forks(philo, data);
+	eating(philo, data);
+	if (philo->id == data->nbr_philo)
+	{
+		pthread_mutex_unlock(&data->fork[philo->id % data->nbr_philo]);
+		if (data->nbr_philo > 1)
+			pthread_mutex_unlock(&data->fork[philo->id - 1]);
+	}
+	else
+	{
+		pthread_mutex_unlock(&data->fork[philo->id - 1]);
+		if (data->nbr_philo > 1)
+			pthread_mutex_unlock(&data->fork[philo->id % data->nbr_philo]);
+	}
+	sleeping(philo, data);
 }
 
 static void	delimited_routine(t_philo *philo, t_data *data)
