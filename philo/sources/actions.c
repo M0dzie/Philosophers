@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/04 10:03:52 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/04 10:09:20 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,13 @@ static void	sleeping(t_philo *philo, t_data *data)
 		pthread_mutex_unlock(&data->mutex_data);
 }
 
-void	forks_and_eat(t_philo *philo)
+void	forks_and_eat(t_philo *philo, t_data *data)
 {
-	thinking(philo, philo->data);
-	take_forks(philo, philo->data);
-	eating(philo, philo->data);
-	pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
-	if (philo->data->nbr_philo > 1)
-		pthread_mutex_unlock(&philo->data->fork[philo->id % \
-		philo->data->nbr_philo]);
-	sleeping(philo, philo->data);
+	thinking(philo, data);
+	take_forks(philo, data);
+	eating(philo, data);
+	pthread_mutex_unlock(&data->fork[philo->id - 1]);
+	if (data->nbr_philo > 1)
+		pthread_mutex_unlock(&data->fork[philo->id % data->nbr_philo]);
+	sleeping(philo, data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 22:32:35 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/04 10:08:49 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	check_death(t_philo *philo);
 void	*create_thread(t_data *data);
 void	display_error(char *str);
 void	display_status(t_philo *philo, int status);
-void	forks_and_eat(t_philo *philo);
+void	forks_and_eat(t_philo *philo, t_data *data);
 void	init_data(t_data *data, char **argv);
 void	init_philo(t_philo *philo, t_data *data);
 void	lock_mutex_philo(t_philo *philo, int lock);

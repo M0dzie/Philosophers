@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 22:32:43 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/04 10:09:35 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	delimited_routine(t_philo *philo, t_data *data)
 		if (!data->all_alive)
 			return ((void)pthread_mutex_unlock(&data->mutex_data));
 		pthread_mutex_unlock(&data->mutex_data);
-		forks_and_eat(philo);
+		forks_and_eat(philo, data);
 		eat_count++;
 		if (eat_count == data->nbr_must_eat)
 		{
@@ -65,7 +65,7 @@ static void	*routine(void *arg)
 			if (!philo->data->all_alive)
 				return (pthread_mutex_unlock(&philo->data->mutex_data), NULL);
 			pthread_mutex_unlock(&philo->data->mutex_data);
-			forks_and_eat(philo);
+			forks_and_eat(philo, philo->data);
 		}
 	}
 	else
