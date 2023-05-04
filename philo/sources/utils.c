@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/03 22:52:23 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/04 09:33:00 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	display_status(t_philo *philo, int status)
 	msg[3] = "is sleeping\n";
 	msg[4] = "died\n";
 	pthread_mutex_lock(&philo->data->write);
-	printf("%ld %d %s", get_time() - philo->data->time_init, philo->id, msg[status]);
+	printf("%ld %d %s", get_time() - philo->data->time_init, \
+	philo->id, msg[status]);
 	pthread_mutex_unlock(&philo->data->write);
 }

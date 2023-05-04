@@ -6,7 +6,7 @@
 #    By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#              #
-#    Updated: 2023/05/03 14:53:50 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/05/04 09:44:13 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ HEADER		=	includes/philosophers.h
 
 MAKEFILE	=	Makefile
 
-CFLAGS 		= 	-Wall -Wextra -Werror #-g3 -fsanitize=thread
+CFLAGS 		= 	-Wall -Wextra -Werror
+FSANFLAGS	=	-g3 -fsanitize=thread
 PFLAGS		=	-pthread
 
 RM 			= 	rm -rf
@@ -78,6 +79,9 @@ else ifeq ($(UNAME),Darwin)
 	@echo "$(BGREEN)Mac OS Compilation Done$(NOCOLOR)"
 endif
 
+debug:		$(OBJS_DIRS) $(OBJS)
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(P_THREAD) $(FSANFLAGS)
+
 clean:
 			$(RM) $(OBJS)
 			@echo "$(BGREEN)Clean done$(NOCOLOR)"
@@ -92,4 +96,4 @@ re:
 			$(MAKE) fclean
 			$(MAKE) all
 
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re debug
