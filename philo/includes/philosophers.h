@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/04 10:08:49 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/04 10:16:33 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		wrong_arg(char **argv);
 long	ft_atoi(const char *str);
 long	get_time(void);
 
-void	check_death(t_philo *philo);
+void	check_death(t_philo *philo, t_data *data);
 void	*create_thread(t_data *data);
 void	display_error(char *str);
 void	display_status(t_philo *philo, int status);

@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/04 10:09:35 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/04 10:16:28 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	*create_thread(t_data *data)
 		if (pthread_create(&ph_thread[i], NULL, routine, (void *)&philo[i]))
 			return (display_error("Error while creating threads"), NULL);
 	i = -1;
-	check_death(philo);
+	check_death(philo, data);
 	while (++i < data->nbr_philo)
 		if (pthread_join(ph_thread[i], NULL))
 			return (display_error("Error while joining threads"), NULL);
