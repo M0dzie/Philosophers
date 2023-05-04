@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/04 12:50:20 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/04 13:47:16 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	take_forks(t_philo *philo, t_data *data)
 			pthread_mutex_unlock(&data->mutex_data);
 	}
 	else
-		usleep(data->time_to_die * 1000);
+		usleep(data->time_to_die * 1100);
 }
 
 void	take_last_forks(t_philo *philo, t_data *data)
@@ -75,7 +75,7 @@ void	take_last_forks(t_philo *philo, t_data *data)
 			pthread_mutex_unlock(&data->mutex_data);
 	}
 	else
-		usleep(data->time_to_die * 1000);
+		usleep(data->time_to_die * 1100);
 }
 
 void	eating(t_philo *philo, t_data *data)
