@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/04 13:47:16 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/05 14:42:52 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,15 @@ void	thinking(t_philo *philo, t_data *data)
 		pthread_mutex_unlock(&data->mutex_data);
 }
 
-void	take_forks(t_philo *philo, t_data *data)
+void	take_forks(t_philo *philo, t_data *data, int fork1, int fork2)
 {
-	pthread_mutex_lock(&data->fork[philo->id - 1]);
+	pthread_mutex_lock(&philo->mutex_philo);
+	if (!philo->first_fork)
+	{
+		pthread_mutex_lock(&data->fork[fork1]);
+		philo->first_fork = 1;
+	}
+	pthread_mutex_unlock(&philo->mutex_philo);
 	pthread_mutex_lock(&data->mutex_data);
 	if (data->all_alive)
 	{
@@ -37,34 +43,13 @@ void	take_forks(t_philo *philo, t_data *data)
 		pthread_mutex_unlock(&data->mutex_data);
 	if (data->nbr_philo > 1)
 	{
-		pthread_mutex_lock(&data->fork[philo->id % data->nbr_philo]);
-		pthread_mutex_lock(&data->mutex_data);
-		if (data->all_alive)
+		pthread_mutex_lock(&philo->mutex_philo);
+		if (philo->first_fork)
 		{
-			pthread_mutex_unlock(&data->mutex_data);
-			display_status(philo, 1);
+			pthread_mutex_lock(&data->fork[fork2]);
+			philo->first_fork = 0;
 		}
-		else
-			pthread_mutex_unlock(&data->mutex_data);
-	}
-	else
-		usleep(data->time_to_die * 1100);
-}
-
-void	take_last_forks(t_philo *philo, t_data *data)
-{
-	pthread_mutex_lock(&data->fork[philo->id % data->nbr_philo]);
-	pthread_mutex_lock(&data->mutex_data);
-	if (data->all_alive)
-	{
-		pthread_mutex_unlock(&data->mutex_data);
-		display_status(philo, 1);
-	}
-	else
-		pthread_mutex_unlock(&data->mutex_data);
-	if (data->nbr_philo > 1)
-	{
-		pthread_mutex_lock(&data->fork[philo->id - 1]);
+		pthread_mutex_unlock(&philo->mutex_philo);
 		pthread_mutex_lock(&data->mutex_data);
 		if (data->all_alive)
 		{

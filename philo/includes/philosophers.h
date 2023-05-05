@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/04 13:47:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/05 13:52:10 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
+	int				first_fork;
 	long			last_eat;
 	t_data			*data;
 	pthread_mutex_t	mutex_philo;
@@ -57,8 +58,7 @@ void	init_data(t_data *data, char **argv);
 void	init_philo(t_philo *philo, t_data *data);
 void	lock_mutex_philo(t_philo *philo, int lock);
 void	sleeping(t_philo *philo, t_data *data);
-void	take_forks(t_philo *philo, t_data *data);
-void	take_last_forks(t_philo *philo, t_data *data);
+void	take_forks(t_philo *philo, t_data *data, int fork1, int fork2);
 void	thinking(t_philo *philo, t_data *data);
 
 #endif

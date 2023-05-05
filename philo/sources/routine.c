@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/04 13:44:20 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/05 15:02:37 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static void	forks_and_eat(t_philo *philo, t_data *data)
 {
 	thinking(philo, data);
 	if (philo->id == data->nbr_philo)
-		take_last_forks(philo, data);
+		take_forks(philo, data, philo->id % data->nbr_philo, philo->id - 1);
 	else
-		take_forks(philo, data);
+		take_forks(philo, data, philo->id - 1, philo->id % data->nbr_philo);
 	eating(philo, data);
 	if (philo->id == data->nbr_philo)
 	{
