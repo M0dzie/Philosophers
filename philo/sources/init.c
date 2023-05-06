@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:27:56 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/05 15:48:30 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/06 17:38:43 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	init_philo(t_philo *philo, t_data *data)
 	{
 		philo[i].id = i + 1;
 		philo[i].data = data;
-		// philo[i].first_fork = 0;
 		philo[i].last_eat = data->time_init;
 		pthread_mutex_init(&philo[i].mutex_philo, NULL);
 	}
