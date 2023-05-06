@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:00:14 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/05 15:25:39 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/06 17:52:14 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,19 @@ static void	forks_and_eat(t_philo *philo, t_data *data)
 	eating(philo, data);
 	if (philo->id == data->nbr_philo)
 	{
+		pthread_mutex_lock(&philo->mutex_philo);
 		pthread_mutex_unlock(&data->fork[philo->id % data->nbr_philo]);
 		if (data->nbr_philo > 1)
 			pthread_mutex_unlock(&data->fork[philo->id - 1]);
+		pthread_mutex_unlock(&philo->mutex_philo);
 	}
 	else
 	{
+		pthread_mutex_lock(&philo->mutex_philo);
 		pthread_mutex_unlock(&data->fork[philo->id - 1]);
 		if (data->nbr_philo > 1)
 			pthread_mutex_unlock(&data->fork[philo->id % data->nbr_philo]);
+		pthread_mutex_unlock(&philo->mutex_philo);
 	}
 	sleeping(philo, data);
 }
