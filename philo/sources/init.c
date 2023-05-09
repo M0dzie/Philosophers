@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:27:56 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/09 11:18:04 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/09 13:40:02 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	init_philo(t_philo *philo, t_data *data)
 	{
 		philo[i].id = i + 1;
 		philo[i].data = data;
-		philo[i].ate = 0;
 		philo[i].last_eat = data->time_init;
 		pthread_mutex_init(&philo[i].mutex_philo, NULL);
 	}
