@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/09 13:40:07 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/09 13:55:07 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ static void	eating(t_philo *philo, t_data *data)
 		pthread_mutex_unlock(&data->mutex_data);
 		display_status(philo, 2);
 		usleep(data->time_to_eat * 1000);
+		pthread_mutex_lock(&philo->mutex_philo);
+		philo->ate = 1;
+		pthread_mutex_unlock(&philo->mutex_philo);
 	}
 	else
 		pthread_mutex_unlock(&data->mutex_data);
