@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:23:23 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/09 13:54:51 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/09 14:14:35 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
-	int				ate;
+	// int				ate;
 	long			last_eat;
 	t_data			*data;
 	pthread_mutex_t	mutex_philo;
