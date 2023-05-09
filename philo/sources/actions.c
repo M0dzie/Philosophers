@@ -6,13 +6,13 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/09 11:19:27 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/09 11:37:39 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	thinking(t_philo *philo, t_data *data)
+static void	thinking(t_philo *philo, t_data *data)
 {
 	pthread_mutex_lock(&data->mutex_data);
 	if (data->all_alive)
@@ -24,7 +24,7 @@ void	thinking(t_philo *philo, t_data *data)
 		pthread_mutex_unlock(&data->mutex_data);
 }
 
-void	take_forks(t_philo *philo, t_data *data, int fork1, int fork2)
+static void	take_forks(t_philo *philo, t_data *data, int fork1, int fork2)
 {
 	pthread_mutex_lock(&data->fork[fork1]);
 	pthread_mutex_lock(&data->mutex_data);
@@ -51,7 +51,7 @@ void	take_forks(t_philo *philo, t_data *data, int fork1, int fork2)
 		usleep(data->time_to_die * 1100);
 }
 
-void	eating(t_philo *philo, t_data *data)
+static void	eating(t_philo *philo, t_data *data)
 {
 	pthread_mutex_lock(&data->mutex_data);
 	if (data->all_alive)
@@ -70,7 +70,7 @@ void	eating(t_philo *philo, t_data *data)
 	pthread_mutex_unlock(&philo->mutex_philo);
 }
 
-void	sleeping(t_philo *philo, t_data *data)
+static void	sleeping(t_philo *philo, t_data *data)
 {
 	pthread_mutex_lock(&data->mutex_data);
 	if (data->all_alive)
@@ -81,4 +81,27 @@ void	sleeping(t_philo *philo, t_data *data)
 	}
 	else
 		pthread_mutex_unlock(&data->mutex_data);
+}
+
+void	forks_and_eat(t_philo *philo, t_data *data)
+{
+	thinking(philo, data);
+	if (philo->id == data->nbr_philo)
+		take_forks(philo, data, philo->id % data->nbr_philo, philo->id - 1);
+	else
+		take_forks(philo, data, philo->id - 1, philo->id % data->nbr_philo);
+	eating(philo, data);
+	if (philo->id == data->nbr_philo)
+	{
+		pthread_mutex_unlock(&data->fork[philo->id % data->nbr_philo]);
+		if (data->nbr_philo > 1)
+			pthread_mutex_unlock(&data->fork[philo->id - 1]);
+	}
+	else
+	{
+		pthread_mutex_unlock(&data->fork[philo->id - 1]);
+		if (data->nbr_philo > 1)
+			pthread_mutex_unlock(&data->fork[philo->id % data->nbr_philo]);
+	}
+	sleeping(philo, data);
 }
