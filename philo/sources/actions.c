@@ -28,8 +28,8 @@ static void	thinking(t_philo *philo, t_data *data)
 
 static void	take_forks(t_philo *philo, t_data *data, int fork1, int fork2)
 {
-	pthread_mutex_lock(&data->fork[fork1]);
 	pthread_mutex_lock(&philo->mutex_philo);
+	pthread_mutex_lock(&data->fork[fork1]);
 	pthread_mutex_lock(&data->mutex_data);
 	if (data->all_alive)
 	{
@@ -41,8 +41,8 @@ static void	take_forks(t_philo *philo, t_data *data, int fork1, int fork2)
 	pthread_mutex_unlock(&philo->mutex_philo);
 	if (data->nbr_philo > 1)
 	{
-		pthread_mutex_lock(&data->fork[fork2]);
 		pthread_mutex_lock(&philo->mutex_philo);
+		pthread_mutex_lock(&data->fork[fork2]);
 		pthread_mutex_lock(&data->mutex_data);
 		if (data->all_alive)
 		{
