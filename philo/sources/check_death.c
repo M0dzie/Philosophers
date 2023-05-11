@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 09:50:33 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/11 11:12:43 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/11 15:32:32 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	check_death(t_philo *philo, t_data *data)
 			{
 				pthread_mutex_lock(&data->mutex_data);
 				data->all_alive = 0;
-				display_status(&philo[i], 4);
 				pthread_mutex_unlock(&data->mutex_data);
+				display_status(&philo[i], 4);
 				return ;
 			}
 		}
