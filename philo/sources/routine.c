@@ -6,13 +6,13 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 11:22:04 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/15 11:00:12 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/15 11:51:03 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static void	*start_routine(t_philo *philo, long time_to_eat, long nbr_philo, \
+static void	start_routine(t_philo *philo, long time_to_eat, long nbr_philo, \
 int odd)
 {
 	while (1)
@@ -20,7 +20,7 @@ int odd)
 		pthread_mutex_lock(&philo->data->mutex_data);
 		if (!philo->data->all_alive || philo->eat_count == \
 		philo->data->nbr_must_eat)
-			return (pthread_mutex_unlock(&philo->data->mutex_data), NULL);
+			return ((void)pthread_mutex_unlock(&philo->data->mutex_data));
 		pthread_mutex_unlock(&philo->data->mutex_data);
 		if (!philo->ate)
 		{
@@ -29,12 +29,11 @@ int odd)
 			if (philo->id % 2 == 0 && odd)
 				usleep((time_to_eat * 0.9) * 1000);
 			actions(philo, philo->data, nbr_philo);
-			pthread_mutex_lock(&philo->data->mutex_data);
+			pthread_mutex_lock(&philo->mutex_philo);
 			philo->eat_count++;
-			pthread_mutex_unlock(&philo->data->mutex_data);
+			pthread_mutex_unlock(&philo->mutex_philo);
 		}
 	}
-	return (NULL);
 }
 
 void	*routine(void *arg)
