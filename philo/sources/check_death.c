@@ -6,18 +6,18 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 09:50:33 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/15 09:50:43 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/15 09:59:54 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static void	update_status(t_philo *philo, t_data *data, int should_display)
+static void	update_status(t_philo *philo, t_data *data, int should_display_msg)
 {
 	pthread_mutex_lock(&data->mutex_data);
 	data->all_alive = 0;
 	pthread_mutex_unlock(&data->mutex_data);
-	if (should_display)
+	if (should_display_msg)
 		display_status(philo, 4);
 }
 
@@ -71,9 +71,7 @@ void	check_death(t_philo *philo, t_data *data)
 			if (enough_meal(philo, data))
 				return (update_status(philo, data, 0));
 			pthread_mutex_lock(&data->mutex_data);
-			pthread_mutex_lock(&philo[i].mutex_philo);
 			time_eat = get_time() - philo[i].last_eat;
-			pthread_mutex_unlock(&philo[i].mutex_philo);
 			if (time_eat > data->time_to_die)
 				return (pthread_mutex_unlock(&data->mutex_data), \
 				update_status(philo, data, 1));

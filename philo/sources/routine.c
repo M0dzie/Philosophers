@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 11:22:04 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/15 09:47:59 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/15 10:07:40 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	start_routine(t_philo *philo, t_data *data, int odd)
 				usleep((data->time_to_eat * 0.9) * 1200);
 			if (philo->id % 2 == 0 && odd)
 				usleep((data->time_to_eat * 0.9) * 1000);
-			forks_and_eat(philo, data);
+			actions(philo, data);
 			pthread_mutex_lock(&data->mutex_data);
 			philo->eat_count++;
 			pthread_mutex_unlock(&data->mutex_data);
