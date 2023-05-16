@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:43:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/15 10:57:21 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/16 09:38:49 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,22 +86,22 @@ static void	sleeping(t_philo *philo, t_data *data)
 void	actions(t_philo *philo, t_data *data, long nbr_philo)
 {
 	thinking(philo, data);
-	if (philo->id == nbr_philo && nbr_philo != 1)
+	if (philo->id == nbr_philo)
 		take_forks(philo, data, philo->id % nbr_philo, philo->id - 1);
 	else
 		take_forks(philo, data, philo->id - 1, philo->id % nbr_philo);
 	eating(philo, data);
 	if (philo->id == nbr_philo)
 	{
-		pthread_mutex_unlock(&data->fork[philo->id - 1]);
-		if (nbr_philo > 1)
-			pthread_mutex_unlock(&data->fork[philo->id % nbr_philo]);
-	}
-	else
-	{
 		pthread_mutex_unlock(&data->fork[philo->id % nbr_philo]);
 		if (nbr_philo > 1)
 			pthread_mutex_unlock(&data->fork[philo->id - 1]);
+	}
+	else
+	{
+		pthread_mutex_unlock(&data->fork[philo->id - 1]);
+		if (nbr_philo > 1)
+			pthread_mutex_unlock(&data->fork[philo->id % nbr_philo]);
 	}
 	sleeping(philo, data);
 }
