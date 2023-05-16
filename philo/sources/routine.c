@@ -6,14 +6,14 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 11:22:04 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/16 10:25:02 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/16 10:37:07 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
 static void	start_routine(t_philo *philo, long time_to_eat, long nbr_philo, \
-int odd)
+int case_three)
 {
 	while (1)
 	{
@@ -26,7 +26,7 @@ int odd)
 		{
 			if (philo->id == 3 && nbr_philo == 3)
 				usleep((time_to_eat * 0.9) * 1200);
-			if (philo->id % 2 == 0 && odd)
+			if (philo->id % 2 == 0 && case_three)
 				usleep((time_to_eat * 0.9) * 1000);
 			actions(philo, philo->data, nbr_philo);
 			pthread_mutex_lock(&philo->mutex_philo);
