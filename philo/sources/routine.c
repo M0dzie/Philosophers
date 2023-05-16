@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 11:22:04 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/16 10:23:08 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/16 10:25:02 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	start_routine(t_philo *philo, long time_to_eat, long nbr_philo, \
 int odd)
 {
-	(void) odd;
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->mutex_data);
