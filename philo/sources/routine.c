@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 11:22:04 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/05/16 09:51:16 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/05/16 10:23:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	start_routine(t_philo *philo, long time_to_eat, long nbr_philo, \
 int odd)
 {
+	(void) odd;
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->mutex_data);
@@ -47,13 +48,19 @@ void	*routine(void *arg)
 	time_to_eat = philo->data->time_to_eat;
 	nbr_philo = philo->data->nbr_philo;
 	pthread_mutex_unlock(&philo->data->mutex_data);
-	if (nbr_philo % 2 == 0 || nbr_philo > 15 || nbr_philo == 1)
+	if (nbr_philo % 2 == 0 || nbr_philo == 1)
 	{
 		if (philo->id % 2 == 0)
 			usleep((time_to_eat * 0.9) * 1000);
 		start_routine(philo, time_to_eat, nbr_philo, 0);
 	}
 	else
-		start_routine(philo, time_to_eat, nbr_philo, 1);
+	{
+		if (nbr_philo == 3)
+			start_routine(philo, time_to_eat, nbr_philo, 1);
+		if (philo->id % 2 == 0)
+			usleep((time_to_eat * 0.9) * 1000);
+		start_routine(philo, time_to_eat, nbr_philo, 0);
+	}
 	return (NULL);
 }
